@@ -3,5 +3,5 @@
   "columnsInRow": 7,
   "luckyNumber": 13,
   "maxNumber": 36,
-  "useRandomNext":  true
+  "useRandomNext": false
 }
