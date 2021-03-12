@@ -3,10 +3,11 @@ using CodeChallenge.Core.Implementations;
 using CodeChallenge.Core.Models;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.Json;
-using System.Text.Json.Serialization;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CodeChallenge.ConsoleApp
@@ -16,32 +17,40 @@ namespace CodeChallenge.ConsoleApp
         static async Task Main(string[] args)
         {
             var services = new ServiceCollection();
-
             services.AddCodeChallengeCore();
-
-
+            services.AddTransient<CouponTask>();
             var serviceProvider = services.BuildServiceProvider();
 
-            var couponGenerator = serviceProvider.GetRequiredService<ICouponGenerator>();
-            var validator = serviceProvider.GetRequiredService<ICouponValidator>();
+
+
+            //Coupon validCoupon = null;
+
 
             var sw = Stopwatch.StartNew();
-            Coupon validCoupon = null;
-            var attempts = 0;
-            while(validCoupon == null)
+
+            var couponTasks = new List<CouponTask>();
+            for (var i = 0; i < Environment.ProcessorCount; i++)
             {
-                var coupon = couponGenerator.GenerateCoupon();
-                if (validator.IsValid(coupon))
-                {
-                    validCoupon = coupon;
-                }
-                attempts++;
+                couponTasks.Add(serviceProvider.GetRequiredService<CouponTask>());
             }
+
+            var completedTask = await Task.WhenAny(couponTasks.Select(y => y.DoWork()));
+
             sw.Stop();
 
-            Console.WriteLine($"Success after {attempts} attempts in {sw.Elapsed.TotalSeconds} seconds.");
-            Console.WriteLine(JsonSerializer.Serialize(validCoupon, new JsonSerializerOptions { WriteIndented = true }));
-            
+
+            var validCoupon = await completedTask;
+            var totalAttempts = couponTasks.Sum(x => x.Attempts);
+            var avgCoupon = sw.ElapsedMilliseconds / (decimal)totalAttempts;
+            Console.WriteLine($"Success after {couponTasks.Sum(x => x.Attempts)} attempts in {sw.Elapsed.TotalSeconds} seconds.");
+            Console.WriteLine($"Each coupon took on average {avgCoupon:N5} ms.");
+            Console.WriteLine(JsonSerializer.Serialize(validCoupon));
+
         }
+
     }
+
+
 }
+
+
