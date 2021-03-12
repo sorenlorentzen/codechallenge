@@ -32,4 +32,15 @@ namespace CodeChallenge.Core.Implementations
             return number;
         }
     }
+
+    public class RandomNextNumberGenerator : INumberGenerator
+    {
+        private static Random _random = new(); //WE're using a shared instance to make sure we dont create instances with equal seed
+
+        public int GenerateNumber(int maxInclusive)
+        {
+            var i = _random.Next(maxInclusive);
+            return i;
+        }
+    }
 }

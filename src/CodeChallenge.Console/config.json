@@ -1,6 +1,7 @@
 {
-  "rowsInCoupon": 8,
+  "rowsInCoupon": 5,
   "columnsInRow": 7,
   "luckyNumber": 13,
-  "maxNumber": 36
+  "maxNumber": 36,
+  "useRandomNext":  true
 }

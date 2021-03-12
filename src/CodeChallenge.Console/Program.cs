@@ -28,7 +28,7 @@ namespace CodeChallenge.ConsoleApp
 
             services.AddSingleton(config);
 
-            services.AddCodeChallengeCore(config.LuckyNumber);
+            services.AddCodeChallengeCore(config);
 
             services.AddTransient<CouponTask>();
 

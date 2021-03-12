@@ -20,5 +20,8 @@ namespace CodeChallenge.Core.Models
 
         [JsonPropertyName("maxNumber")]
         public int MaxNumber { get; set; }
+
+        [JsonPropertyName("useRandomNext")]
+        public bool UseRandomNext { get; set; }
     }
 }
