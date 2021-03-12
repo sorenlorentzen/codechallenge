@@ -2,6 +2,7 @@
 using CodeChallenge.Core.Generators;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CodeChallenge.ConsoleApp
@@ -19,10 +20,12 @@ namespace CodeChallenge.ConsoleApp
 
             var rng = serviceProvider.GetRequiredService<INumberGenerator>();
 
+            var numbersDictionary = Enumerable.Range(0, 10_000).Select(x => rng.GenerateNumber(40)).GroupBy(x => x).OrderByDescending(x => x.Count()).ToDictionary(x => x.Key, x => x.Count());
+            
 
-            for(var i = 0; i < 10_000; i++)
+            foreach(var pair in numbersDictionary.Take(10))
             {
-                Console.WriteLine(rng.GenerateNumber(40));
+                Console.WriteLine($"{pair.Key} was seen {pair.Value} times");
             }
 
 
