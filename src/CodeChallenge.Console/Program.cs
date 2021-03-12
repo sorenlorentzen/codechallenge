@@ -1,8 +1,12 @@
 ﻿using CodeChallenge.Core;
 using CodeChallenge.Core.Implementations;
+using CodeChallenge.Core.Models;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Diagnostics;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace CodeChallenge.ConsoleApp
@@ -18,18 +22,26 @@ namespace CodeChallenge.ConsoleApp
 
             var serviceProvider = services.BuildServiceProvider();
 
-            var rng = serviceProvider.GetRequiredService<INumberGenerator>();
+            var couponGenerator = serviceProvider.GetRequiredService<ICouponGenerator>();
+            var validator = serviceProvider.GetRequiredService<ICouponValidator>();
 
-            var numbersDictionary = Enumerable.Range(0, 10_000).Select(x => rng.GenerateNumber(40)).GroupBy(x => x).OrderByDescending(x => x.Count()).ToDictionary(x => x.Key, x => x.Count());
-            
-
-            foreach(var pair in numbersDictionary.Take(10))
+            var sw = Stopwatch.StartNew();
+            Coupon validCoupon = null;
+            var attempts = 0;
+            while(validCoupon == null)
             {
-                Console.WriteLine($"{pair.Key} was seen {pair.Value} times");
+                var coupon = couponGenerator.GenerateCoupon();
+                if (validator.IsValid(coupon))
+                {
+                    validCoupon = coupon;
+                }
+                attempts++;
             }
+            sw.Stop();
 
-
-
+            Console.WriteLine($"Success after {attempts} attempts in {sw.Elapsed.TotalSeconds} seconds.");
+            Console.WriteLine(JsonSerializer.Serialize(validCoupon, new JsonSerializerOptions { WriteIndented = true }));
+            
         }
     }
 }
