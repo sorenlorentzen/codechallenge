@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CodeChallenge.Core.Generators
+namespace CodeChallenge.Core.Implementations
 {
     public interface INumberGenerator
     {

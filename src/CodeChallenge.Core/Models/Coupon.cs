@@ -12,10 +12,5 @@ namespace CodeChallenge.Core.Models
         public DateTimeOffset CreationDate { get; set; }
         public Row[] Rows { get; set; }
 
-
-        public Coupon()
-        {
-            this.CreationDate = DateTimeOffset.Now;
-        }
     }
 }

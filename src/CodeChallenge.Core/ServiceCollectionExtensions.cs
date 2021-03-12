@@ -1,4 +1,4 @@
-﻿using CodeChallenge.Core.Generators;
+﻿using CodeChallenge.Core.Implementations;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
