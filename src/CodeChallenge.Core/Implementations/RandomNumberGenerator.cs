@@ -23,7 +23,11 @@ namespace CodeChallenge.Core.Implementations
             rng.GetBytes(array);
 
             var number = BitConverter.ToInt32(array, 0);
-            number = Math.Abs(number + 1) % maxInclusive;
+            if (number != int.MaxValue)
+            {
+                number++;
+            }
+            number = Math.Abs(number) % maxInclusive;
             return number;
         }
     }
