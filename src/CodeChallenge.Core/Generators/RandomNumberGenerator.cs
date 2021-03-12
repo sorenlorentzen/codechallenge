@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace CodeChallenge.Core.Generators
 {
-    public interface IRandomNumberGenerator
+    public interface INumberGenerator
     {
-        int GenerateRandomNumber(int maxInclusive);
+        int GenerateNumber(int maxInclusive);
     }
 
 
-    public class RandomNumberGenerator : IRandomNumberGenerator
+    public class RandomNumberGenerator : INumberGenerator
     {
-        public int GenerateRandomNumber(int maxInclusive)
+        public int GenerateNumber(int maxInclusive)
         {
             using RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
             var array = new byte[4]; //int is four bytes in .net 5

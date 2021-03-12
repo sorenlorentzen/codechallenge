@@ -17,12 +17,12 @@ namespace CodeChallenge.ConsoleApp
 
             var serviceProvider = services.BuildServiceProvider();
 
-            var rng = serviceProvider.GetRequiredService<IRandomNumberGenerator>();
+            var rng = serviceProvider.GetRequiredService<INumberGenerator>();
 
 
             for(var i = 0; i < 10_000; i++)
             {
-                Console.WriteLine(rng.GenerateRandomNumber(40));
+                Console.WriteLine(rng.GenerateNumber(40));
             }
 
 

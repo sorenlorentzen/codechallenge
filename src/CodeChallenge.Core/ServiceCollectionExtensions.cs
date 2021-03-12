@@ -14,7 +14,7 @@ namespace CodeChallenge.Core
         {
             services.AddTransient<ICouponGenerator, CouponGenerator>();
             services.AddTransient<IRowGenerator, RowGenerator>();
-            services.AddTransient<IRandomNumberGenerator, RandomNumberGenerator>();
+            services.AddTransient<INumberGenerator, RandomNumberGenerator>();
 
             return services;
         }
