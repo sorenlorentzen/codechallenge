@@ -23,6 +23,9 @@ namespace CodeChallenge.ConsoleApp
             //Using the Microsoft.Extensions.Configuration packages seem like overkill for this simple task.
             var configJson = await File.ReadAllTextAsync("config.json");
             var config = JsonSerializer.Deserialize<Configuration>(configJson);
+
+            ValidateConfiguration(config);
+
             services.AddSingleton(config);
 
             services.AddCodeChallengeCore(config.LuckyNumber);
@@ -53,6 +56,13 @@ namespace CodeChallenge.ConsoleApp
 
         }
 
+        static void ValidateConfiguration(Configuration config)
+        {
+            if (config.RowsInCoupon < 1) throw new Exception($"{nameof(Configuration.RowsInCoupon)} must be greater than 1");
+            if (config.ColumnsInRow < 1) throw new Exception($"{nameof(Configuration.ColumnsInRow)} must be greater than 1");
+            if (config.MaxNumber <= config.ColumnsInRow) throw new Exception($"{nameof(Configuration.MaxNumber)} must be greater than {nameof(Configuration.ColumnsInRow)}");
+            if (config.LuckyNumber < 1 || config.LuckyNumber > config.MaxNumber) throw new Exception($"{nameof(Configuration.LuckyNumber)} must be between 1 and {nameof(Configuration.MaxNumber)}");
+        }
     }
 
 
