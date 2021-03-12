@@ -22,19 +22,16 @@ namespace CodeChallenge.ConsoleApp
             var serviceProvider = services.BuildServiceProvider();
 
 
-
-            //Coupon validCoupon = null;
-
-
             var sw = Stopwatch.StartNew();
 
             var couponTasks = new List<CouponTask>();
             for (var i = 0; i < Environment.ProcessorCount; i++)
             {
-                couponTasks.Add(serviceProvider.GetRequiredService<CouponTask>());
+                var ct = serviceProvider.GetRequiredService<CouponTask>();
+                couponTasks.Add(ct);
             }
 
-            var completedTask = await Task.WhenAny(couponTasks.Select(y => y.DoWork()));
+            var completedTask = await Task.WhenAny(couponTasks.Select(y => Task.Run(async () => await y.DoWork())));
 
             sw.Stop();
 
