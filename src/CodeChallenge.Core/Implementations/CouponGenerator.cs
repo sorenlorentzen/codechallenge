@@ -15,10 +15,12 @@ namespace CodeChallenge.Core.Implementations
 
     public class CouponGenerator : ICouponGenerator
     {
+        private readonly Configuration _configuration;
         private readonly IRowGenerator _rowGenerator;
 
-        public CouponGenerator(IRowGenerator rowGenerator)
+        public CouponGenerator(Configuration configuration, IRowGenerator rowGenerator)
         {
+            _configuration = configuration;
             _rowGenerator = rowGenerator;
         }
 
@@ -28,12 +30,12 @@ namespace CodeChallenge.Core.Implementations
             var coupon = new Coupon();
             coupon.CreationDate = DateTimeOffset.Now;
 
-            var rowCount = 6; //TODO: Get this from config. Hardcoded for now.
+            var rowCount = _configuration.RowsInCoupon;
             var rows = new Row[rowCount];
 
             for (var i = 0; i < rowCount; i++)
             {
-                rows[i] = _rowGenerator.GenerateRow(10); //TODO: Get this from config. Hardcoded for now.
+                rows[i] = _rowGenerator.GenerateRow(); 
             }
 
             coupon.Rows = rows;

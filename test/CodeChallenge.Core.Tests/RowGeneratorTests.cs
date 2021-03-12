@@ -1,4 +1,5 @@
 using CodeChallenge.Core.Implementations;
+using CodeChallenge.Core.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 
@@ -10,14 +11,14 @@ namespace CodeChallenge.Core.Tests
         [TestMethod]
         public void TestNumbersArrayWillBePopulatedWithCorrectColsCount()
         {
-            var numberGenerator = Substitute.For<INumberGenerator>();
-            numberGenerator.GenerateNumber(Arg.Any<int>()).Returns(20);
+            var config = new Configuration { ColumnsInRow = 12, MaxNumber = 40 };
 
-            var rowGenerator = new RowGenerator(numberGenerator);
-            var colsCount = 12;
+            var numberGenerator = new SequentialNumberGenerator();
+
+            var rowGenerator = new RowGenerator(config, numberGenerator);
             
-            var row = rowGenerator.GenerateRow(colsCount);
-            Assert.AreEqual(colsCount, row.Numbers.Length);
+            var row = rowGenerator.GenerateRow();
+            Assert.AreEqual(config.ColumnsInRow, row.Numbers.Length);
         }
 
     }

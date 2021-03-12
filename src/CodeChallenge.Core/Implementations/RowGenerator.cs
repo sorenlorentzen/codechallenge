@@ -7,28 +7,30 @@ namespace CodeChallenge.Core.Implementations
 {
     public interface IRowGenerator
     {
-        Row GenerateRow(int colsCount);
+        Row GenerateRow();
     }
 
 
     public class RowGenerator : IRowGenerator
     {
+        private readonly Configuration _configuration;
         private readonly INumberGenerator _numberGenerator;
 
-        public RowGenerator(INumberGenerator numberGenerator)
+        public RowGenerator(Configuration configuration, INumberGenerator numberGenerator)
         {
+            _configuration = configuration;
             _numberGenerator = numberGenerator;
         }
 
-        public Row GenerateRow(int colsCount)
+        public Row GenerateRow()
         {
             int[] numbers;
 
             do
             {
-                numbers = GenerateNumbersInternal(colsCount, 40); //TODO: Get from config. Hardcoded this value for now. 
+                numbers = GenerateNumbersInternal(_configuration.ColumnsInRow, _configuration.MaxNumber);  
 
-            } while (numbers.Distinct().Count() != colsCount);
+            } while (numbers.Distinct().Count() != _configuration.ColumnsInRow);
 
             //Order by value
             Array.Sort(numbers);

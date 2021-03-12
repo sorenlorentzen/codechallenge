@@ -16,8 +16,8 @@ namespace CodeChallenge.ConsoleApp
             _couponValidator = couponValidator;
         }
 
-        public int Attempts { get; private set; }
-        
+        public long Attempts { get; private set; }
+
         public Task<Coupon> DoWork()
         {
             Coupon validCoupon = null;

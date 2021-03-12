@@ -5,17 +5,17 @@ namespace CodeChallenge.Core
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddCodeChallengeCore(this IServiceCollection services)
+        public static IServiceCollection AddCodeChallengeCore(this IServiceCollection services, int luckyNumber)
         {
             //Add generators to IoC container
             services.AddTransient<ICouponGenerator, CouponGenerator>();
             services.AddTransient<IRowGenerator, RowGenerator>();
             services.AddTransient<INumberGenerator, RandomNumberGenerator>();
 
-            //For validation we have two possibilities.
+            //For validation I have implemented two variations.
             //I like the linq one more, so I'm using that.
-            services.AddTransient<ICouponValidator, LuckyNumberCouponLinqValidator>(x => new LuckyNumberCouponLinqValidator(13)); //TODO: Get this value from config. Hardcoded for now.
-            //services.AddTransient<ICouponValidator, LuckyNumberCouponLoopsValidator>(x => new LuckyNumberCouponLoopsValidator(13)); //TODO: Get this value from config. Hardcoded for now.
+            services.AddTransient<ICouponValidator, LuckyNumberCouponLinqValidator>(x => new LuckyNumberCouponLinqValidator(luckyNumber));
+            //services.AddTransient<ICouponValidator, LuckyNumberCouponLoopsValidator>(x => new LuckyNumberCouponLoopsValidator(luckyNumber));
             return services;
         }
     }

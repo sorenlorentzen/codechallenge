@@ -27,7 +27,8 @@ namespace CodeChallenge.Core.Implementations
             {
                 number++;
             }
-            number = Math.Abs(number) % maxInclusive;
+            number = Math.Abs(number);
+            number %= maxInclusive;
             return number;
         }
     }
