@@ -28,12 +28,12 @@ namespace CodeChallenge.Core.Implementations
             var coupon = new Coupon();
             coupon.CreationDate = DateTimeOffset.Now;
 
-            var rowCount = 10; //TODO: Get this from config. Hardcoded for now.
+            var rowCount = 2; //TODO: Get this from config. Hardcoded for now.
             var rows = new Row[rowCount];
 
             for (var i = 0; i < rowCount; i++)
             {
-                rows[i] = _rowGenerator.GenerateRow(7); //TODO: Get this from config. Hardcoded for now.
+                rows[i] = _rowGenerator.GenerateRow(5); //TODO: Get this from config. Hardcoded for now.
             }
 
             coupon.Rows = rows;
