@@ -1,8 +1,6 @@
-using CodeChallenge.Core.Generators;
 using CodeChallenge.Core.Implementations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
-using System.ComponentModel.Design;
 
 namespace CodeChallenge.Core.Tests
 {
